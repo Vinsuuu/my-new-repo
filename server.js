@@ -8,7 +8,9 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve static files (index.html, script.js, etc.)
+app.use(express.static(__dirname));
 
 const DATA_FILE = path.join(__dirname, 'students.json');
 if (!fs.existsSync(DATA_FILE)) {
@@ -56,8 +58,9 @@ app.delete('/students/:id', (req, res) => {
   res.json({ message: 'Student deleted' });
 });
 
+// Serve your index.html for all routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));
